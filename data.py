@@ -15,11 +15,11 @@ import io
 
 def fetch_data():
     conn = psycopg2.connect(
-        host=os.getenv('DB_HOST'),
-        database=os.getenv('DB_NAME'),
-        user=os.getenv("DB_USERNAME"),
-        password=os.getenv("DB_PASSWORD"),
-        port=os.getenv("DB_PORT")
+        host='localhost',
+        database='deal',
+        user='sujaypatel',
+        password='password',
+        port='5432'
     )
     cursor = conn.cursor()
     print("Database connected")
@@ -70,11 +70,11 @@ def fetch_data():
 
 def insert_recommendations(user_id, product_ids):
     conn = psycopg2.connect(
-        host=os.getenv('DB_HOST'),
-        database=os.getenv('DB_NAME'),
-        user=os.getenv("DB_USERNAME"),
-        password=os.getenv("DB_PASSWORD"),
-        port=os.getenv("DB_PORT")
+        host='localhost',
+        database='deal',
+        user='sujaypatel',
+        password='password',
+        port='5432'
     )
     cursor = conn.cursor()
     print("Database connected")
@@ -93,11 +93,11 @@ def insert_recommendations(user_id, product_ids):
 
 def fetch_user_products(userId: str):
     conn = psycopg2.connect(
-        host=os.getenv('DB_HOST'),
-        database=os.getenv('DB_NAME'),
-        user=os.getenv("DB_USERNAME"),
-        password=os.getenv("DB_PASSWORD"),
-        port=os.getenv("DB_PORT")
+        host='localhost',
+        database='deal',
+        user='sujaypatel',
+        password='password',
+        port='5432'
     )
     cursor = conn.cursor()
     print("Database connected")
@@ -166,16 +166,19 @@ def preprocess_data(products):
     }
 
     for index in range(len(products)):
-        product_id = products.iloc[index]['product_id']
-        description = products.iloc[index]['clothing_type']
-        image = products.iloc[index]['image']
+        try:
+            product_id = products.iloc[index]['product_id']
+            description = products.iloc[index]['clothing_type']
+            image = products.iloc[index]['image']
         
-        preprocessed_image = convert_url_to_image(image)
-        category = map_categories(description, categories)
+            preprocessed_image = convert_url_to_image(image)
+            category = map_categories(description, categories)
         
-        product_ids.append(product_id)
-        images.append(preprocessed_image)
-        categories_mapped.append(category)
+            product_ids.append(product_id)
+            images.append(preprocessed_image)
+            categories_mapped.append(category)
+        except:
+            print(f"Failed to load image for index {index}")
 
     df = pd.DataFrame({
         'productId': product_ids,
