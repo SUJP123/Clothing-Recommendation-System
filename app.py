@@ -22,15 +22,17 @@ predictions = obtain_preds_for_products(images, model)
 @app.route('/recommend', methods=['POST'])
 def recommend():
 
-
+    print(users)
     for user_id in users:
-        user_ratings_df2 = fetch_user_products(user_id)
+        print(user_id[0])
+        user_ratings_df2 = fetch_user_products(user_id[0])
 
         # Generate recommendations
-        liked_products = find_liked_products(user_id, user_ratings_df2)
+        liked_products = find_liked_products(user_id[0], user_ratings_df2)
         recommendations = find_recs_for_all(liked_products['product_id'].tolist(), 5, predictions, list(label_map.keys()), model, images)
-
+        print(liked_products)
         # Convert recommendations to native Python int
+        print(recommendations)
         recommendations = [int(rec) for rec in recommendations]
         insert_recommendations(user_id, recommendations)
 

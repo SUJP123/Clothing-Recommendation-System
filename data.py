@@ -14,6 +14,11 @@ from tensorflow.keras.utils import to_categorical
 import io
 
 def fetch_data():
+    print("Connecting to database with the following settings:")
+    print("Host:", os.getenv("DB_HOST"))
+    print("Database:", os.getenv("DB_NAME"))
+    print("User:", os.getenv("DB_USERNAME"))
+    print("Password:", os.getenv("DB_PASSWORD"))
     conn = psycopg2.connect(
         host=os.getenv('DB_HOST'),
         database=os.getenv('DB_NAME'),
