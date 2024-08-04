@@ -24,6 +24,13 @@ def fetch_data():
     cursor = conn.cursor()
     print("Database connected")
 
+    user_query = """
+    SELECT id FROM customer
+    """
+
+    cursor.execute(user_query)
+    users = cursor.fetchall()
+
     query = """
     SELECT 
         userid, 
@@ -54,11 +61,35 @@ def fetch_data():
 
     user_ratings_df = pd.DataFrame(user_ratings, columns=['user_id', 'product_id', 'rating'])
     products_df = pd.DataFrame(products, columns=['product_id', 'name', 'retail_price', 'deal_price', 'saved', 'image', 'description', 'clothing_type'])
+    user_list = list(users)
 
     cursor.close()
     conn.close()
 
-    return user_ratings_df, products_df
+    return user_ratings_df, products_df, user_list
+
+def insert_recommendations(user_id, product_ids):
+    conn = psycopg2.connect(
+        host=os.getenv('DB_HOST'),
+        database=os.getenv('DB_NAME'),
+        user=os.getenv("DB_USERNAME"),
+        password=os.getenv("DB_PASSWORD"),
+        port=os.getenv("DB_PORT")
+    )
+    cursor = conn.cursor()
+    print("Database connected")
+
+    for product_id in product_ids:
+        query = """
+        INSERT INTO recommended (userid, productid) 
+        VALUES (%s, %s)
+        ON CONFLICT DO NOTHING
+        """
+        cursor.execute(query, (user_id, product_id))
+
+    conn.commit()
+    cursor.close()
+    conn.close()
 
 def fetch_user_products(userId: str):
     conn = psycopg2.connect(
