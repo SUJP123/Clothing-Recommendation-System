@@ -2,6 +2,9 @@ from flask import Flask, request, jsonify
 import os
 from data import fetch_data, preprocess_data, train_model, find_liked_products, find_recs_for_all, obtain_preds_for_products, fetch_user_products, insert_recommendations
 from flask_cors import CORS
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
 CORS(app)

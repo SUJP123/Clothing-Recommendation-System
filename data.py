@@ -15,11 +15,11 @@ import io
 
 def fetch_data():
     conn = psycopg2.connect(
-        host='localhost',
-        database='deal',
-        user='sujaypatel',
-        password='password',
-        port='5432'
+        host=os.getenv('DB_HOST'),
+        database=os.getenv('DB_NAME'),
+        user=os.getenv('DB_USERNAME'),
+        password=os.getenv('DB_PASSWORD'),
+        port=os.getenv('DB_PORT')
     )
     cursor = conn.cursor()
     print("Database connected")
@@ -70,11 +70,11 @@ def fetch_data():
 
 def insert_recommendations(user_id, product_ids):
     conn = psycopg2.connect(
-        host='localhost',
-        database='deal',
-        user='sujaypatel',
-        password='password',
-        port='5432'
+        host=os.getenv('DB_HOST'),
+        database=os.getenv('DB_NAME'),
+        user=os.getenv('DB_USERNAME'),
+        password=os.getenv('DB_PASSWORD'),
+        port=os.getenv('DB_PORT')
     )
     cursor = conn.cursor()
     print("Database connected")
@@ -93,11 +93,11 @@ def insert_recommendations(user_id, product_ids):
 
 def fetch_user_products(userId: str):
     conn = psycopg2.connect(
-        host='localhost',
-        database='deal',
-        user='sujaypatel',
-        password='password',
-        port='5432'
+        host=os.getenv('DB_HOST'),
+        database=os.getenv('DB_NAME'),
+        user=os.getenv('DB_USERNAME'),
+        password=os.getenv('DB_PASSWORD'),
+        port=os.getenv('DB_PORT')
     )
     cursor = conn.cursor()
     print("Database connected")
